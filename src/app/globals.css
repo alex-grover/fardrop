@@ -64,13 +64,21 @@
     --input: 215 27.9% 16.9%;
     --ring: 216 12.2% 83.9%;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
+}
+
+/* Copied from buttonVariants */
+.fc-authkit-signin-button button {
+  @apply inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-primary font-sans text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+}
+
+.fc-authkit-signin-button span {
+  @apply !ml-0;
+}
+
+.fc-authkit-signin-button svg {
+  @apply hidden;
 }

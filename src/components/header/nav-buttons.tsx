@@ -2,12 +2,13 @@
 
 import {
   SignInButton,
-  StatusAPIResponse,
+  type StatusAPIResponse,
   useProfile,
   useSignIn,
 } from '@farcaster/auth-kit'
 import { Loader2Icon, PlusIcon } from 'lucide-react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useCallback } from 'react'
 import { toast } from 'sonner'
 import { Button, buttonVariants } from '@/components/ui/button'
@@ -17,6 +18,7 @@ import { useSession } from '@/lib/session'
 
 export function NavButtons() {
   const isMounted = useIsMounted()
+  const pathname = usePathname()
   const { signOut: unauthenticate } = useSignIn({})
   const { isAuthenticated } = useProfile()
   const { session, signIn, signOut } = useSession()
@@ -64,10 +66,15 @@ export function NavButtons() {
 
   return (
     <>
-      <Link href="/new" className={cn(buttonVariants({ className: 'gap-2' }))}>
-        <PlusIcon className="h-4 w-4" />
-        <span>Create</span>
-      </Link>
+      {pathname !== '/new' && (
+        <Link
+          href="/new"
+          className={cn(buttonVariants({ className: 'gap-2' }))}
+        >
+          <PlusIcon className="h-4 w-4" />
+          <span>Create</span>
+        </Link>
+      )}
       <Button variant="outline" onClick={handleSignOut}>
         Sign Out
       </Button>

@@ -1,3 +1,10 @@
+import { Header } from '@/components/header'
+
 export default function New() {
-  return <main />
+  return (
+    <>
+      <Header />
+      <main />
+    </>
+  )
 }
