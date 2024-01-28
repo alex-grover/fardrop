@@ -1,6 +1,7 @@
 {
   "name": "fardrop",
-  "version": "0.1.0",
+  "description": "Collect addresses on Farcaster.",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,7 +10,8 @@
     "check:lint": "next lint",
     "fix:lint": "next lint --fix",
     "check:format": "prettier --cache .",
-    "fix:format": "prettier --cache . --write"
+    "fix:format": "prettier --cache . --write",
+    "check:types": "tsc"
   },
   "dependencies": {
     "next": "14.1.0",
