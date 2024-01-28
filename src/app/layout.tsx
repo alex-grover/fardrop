@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import { Inter as FontSans } from 'next/font/google'
 import { PropsWithChildren } from 'react'
+import { FarcasterProvider } from '@/components/providers/farcaster'
+import { SWRProvider } from '@/components/providers/swr'
+import { Toaster } from '@/components/ui/sonner'
 import { cn } from '@/lib/cn'
 import './globals.css'
 
@@ -23,7 +26,12 @@ export default function RootLayout({ children }: PropsWithChildren) {
           fontSans.variable,
         )}
       >
-        {children}
+        <SWRProvider>
+          <FarcasterProvider>
+            {children}
+            <Toaster />
+          </FarcasterProvider>
+        </SWRProvider>
       </body>
     </html>
   )

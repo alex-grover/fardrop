@@ -1,7 +1,5 @@
-import { PlusIcon } from 'lucide-react'
 import Link from 'next/link'
-import { buttonVariants } from '@/components/ui/button'
-import { cn } from '@/lib/cn'
+import { NavButtons } from '@/app/nav-buttons'
 
 export default function Home() {
   return (
@@ -10,15 +8,9 @@ export default function Home() {
         <Link href="/" className="font-bold">
           fardrop
         </Link>
-        <Link
-          href="/new"
-          className={cn(
-            buttonVariants({ className: 'flex items-center gap-2' }),
-          )}
-        >
-          <PlusIcon className="h-4 w-4" />
-          <span>Create</span>
-        </Link>
+        <nav className="flex items-center gap-2">
+          <NavButtons />
+        </nav>
       </header>
       <main />
     </>
