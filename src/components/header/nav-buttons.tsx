@@ -8,8 +8,8 @@ import {
 } from '@farcaster/auth-kit'
 import { Loader2Icon, PlusIcon } from 'lucide-react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { useCallback } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
+import { useCallback, useEffect } from 'react'
 import { toast } from 'sonner'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/cn'
@@ -19,9 +19,14 @@ import { useSession } from '@/lib/session'
 export function NavButtons() {
   const isMounted = useIsMounted()
   const pathname = usePathname()
+  const router = useRouter()
   const { signOut: unauthenticate } = useSignIn({})
   const { isAuthenticated } = useProfile()
   const { session, signIn, signOut } = useSession()
+
+  useEffect(() => {
+    if (!session?.id && pathname !== '/') router.replace('/')
+  }, [session, pathname, router])
 
   const handleSuccess = useCallback(
     (res: StatusAPIResponse) => {
@@ -44,7 +49,8 @@ export function NavButtons() {
   const handleSignOut = useCallback(() => {
     unauthenticate()
     void signOut()
-  }, [unauthenticate, signOut])
+    router.replace('/')
+  }, [unauthenticate, signOut, router])
 
   if (!isMounted) return null
 
@@ -66,7 +72,14 @@ export function NavButtons() {
 
   return (
     <>
-      {pathname !== '/new' && (
+      {pathname === '/new' ? (
+        <Link
+          href="/manage"
+          className={cn(buttonVariants({ className: 'gap-2' }))}
+        >
+          Manage
+        </Link>
+      ) : (
         <Link
           href="/new"
           className={cn(buttonVariants({ className: 'gap-2' }))}

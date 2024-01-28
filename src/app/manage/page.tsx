@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation'
 import { Header } from '@/components/header'
 import { SessionData, sessionOptions } from '@/lib/auth'
 
-export default async function New() {
+export default async function Manage() {
   const session = await getIronSession<SessionData>(cookies(), sessionOptions)
 
   if (!session.id) redirect('/')
