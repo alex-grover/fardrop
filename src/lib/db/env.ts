@@ -1,11 +1,13 @@
 import { createEnv } from '@t3-oss/env-nextjs'
+import dotenv from 'dotenv'
 import { z } from 'zod'
+
+dotenv.config({ path: '.env.local' })
 
 export const env = createEnv({
   server: {
     DATABASE_URL: z.string().url(),
-    SESSION_SECRET: z.string().min(32),
-    VERCEL_ENV: z.enum(['production', 'preview', 'development']),
+    DIRECT_DATABASE_URL: z.string().url().optional(),
   },
   experimental__runtimeEnv: {},
 })
