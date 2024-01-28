@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "check:lint": "next lint",
-    "fix:lint": "next lint --fix"
+    "fix:lint": "next lint --fix",
+    "check:format": "prettier --cache .",
+    "fix:format": "prettier --cache . --write"
   },
   "dependencies": {
     "next": "14.1.0",
@@ -16,6 +18,7 @@
   },
   "devDependencies": {
     "@alex-grover/eslint-config": "0.0.0-tailwind-20240128174706",
+    "@alex-grover/prettier-config": "0.0.0-tailwind-20240128174706",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -28,6 +31,8 @@
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.29.1",
     "postcss": "^8",
+    "prettier": "3.2.4",
+    "prettier-plugin-tailwindcss": "0.5.11",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
   },
@@ -36,5 +41,6 @@
       "@alex-grover",
       "next/core-web-vitals"
     ]
-  }
+  },
+  "prettier": "@alex-grover/prettier-config"
 }
