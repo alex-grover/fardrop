@@ -8,9 +8,9 @@ CREATE TABLE IF NOT EXISTS "drop" (
 CREATE TABLE IF NOT EXISTS "participant" (
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"drop_id" integer NOT NULL,
+	"fid" integer NOT NULL,
 	"caster_fid" text NOT NULL,
-	"participant_fid" integer NOT NULL,
-	CONSTRAINT "participant_drop_id_caster_fid_participant_fid_pk" PRIMARY KEY("drop_id","caster_fid","participant_fid")
+	CONSTRAINT "participant_drop_id_fid_caster_fid_pk" PRIMARY KEY("drop_id","fid","caster_fid")
 );
 --> statement-breakpoint
 DO $$ BEGIN

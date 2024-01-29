@@ -1,7 +1,7 @@
 import { getIronSession } from 'iron-session'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { CreatedDropTable } from '@/app/drops/created-drop-table'
+import { CreatedDropsTable } from '@/app/drops/created-drops-table'
 import { Header } from '@/components/header'
 import { H1 } from '@/components/ui/typography'
 import { SessionData, sessionOptions } from '@/lib/auth'
@@ -16,7 +16,7 @@ export default async function Drops() {
       <Header />
       <main className="container flex max-w-screen-md flex-col gap-4 py-10">
         <H1>Drops</H1>
-        <CreatedDropTable />
+        <CreatedDropsTable />
       </main>
     </>
   )

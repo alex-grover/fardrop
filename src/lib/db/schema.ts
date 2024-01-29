@@ -21,12 +21,12 @@ export const participant = pgTable(
     dropId: integer('drop_id')
       .notNull()
       .references(() => drop.id),
+    fid: integer('fid').notNull(),
     casterFid: text('caster_fid').notNull(),
-    participantFid: integer('participant_fid').notNull(),
   },
   (table) => ({
     pk: primaryKey({
-      columns: [table.dropId, table.casterFid, table.participantFid],
+      columns: [table.dropId, table.fid, table.casterFid],
     }),
   }),
 )

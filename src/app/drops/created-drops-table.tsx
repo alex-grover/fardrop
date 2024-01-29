@@ -15,7 +15,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
-export function CreatedDropTable() {
+export function CreatedDropsTable() {
   const { data } = useSWR<DropsResponse>('/api/drops')
 
   return (
