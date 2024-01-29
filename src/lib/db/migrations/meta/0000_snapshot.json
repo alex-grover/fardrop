@@ -1,11 +1,11 @@
 {
-  "id": "1620d211-644e-4b3e-9734-b701d2cba43a",
+  "id": "81a48e0a-ba19-4f78-8bcf-d402a46c3825",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
   "tables": {
-    "frame": {
-      "name": "frame",
+    "drop": {
+      "name": "drop",
       "schema": "",
       "columns": {
         "id": {
@@ -18,7 +18,7 @@
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "now()"
         },
         "name": {
@@ -47,11 +47,11 @@
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "now()"
         },
-        "frame_id": {
-          "name": "frame_id",
+        "drop_id": {
+          "name": "drop_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
@@ -71,20 +71,20 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "participant_frame_id_frame_id_fk": {
-          "name": "participant_frame_id_frame_id_fk",
+        "participant_drop_id_drop_id_fk": {
+          "name": "participant_drop_id_drop_id_fk",
           "tableFrom": "participant",
-          "tableTo": "frame",
-          "columnsFrom": ["frame_id"],
+          "tableTo": "drop",
+          "columnsFrom": ["drop_id"],
           "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
-        "participant_frame_id_caster_fid_participant_fid_pk": {
-          "name": "participant_frame_id_caster_fid_participant_fid_pk",
-          "columns": ["frame_id", "caster_fid", "participant_fid"]
+        "participant_drop_id_caster_fid_participant_fid_pk": {
+          "name": "participant_drop_id_caster_fid_participant_fid_pk",
+          "columns": ["drop_id", "caster_fid", "participant_fid"]
         }
       },
       "uniqueConstraints": {}
