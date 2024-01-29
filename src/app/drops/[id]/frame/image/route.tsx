@@ -15,6 +15,11 @@ const paramsSchema = z.object({
   id: z.string().pipe(z.coerce.number().positive().int()),
 })
 
+const size = {
+  width: 1910,
+  height: 1000,
+}
+
 export async function GET(request: Request, { params }: Props) {
   const parseResult = paramsSchema.safeParse(params)
   if (!parseResult.success) notFound()
@@ -28,19 +33,29 @@ export async function GET(request: Request, { params }: Props) {
   })
   if (!frameDrop) notFound()
 
-  // TODO: style
   return new ImageResponse(
     (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-        <div>{frameDrop.name}</div>
-        <div>{frameDrop.creatorFid.toString()}</div>
+      <div
+        style={{
+          ...size,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '20px',
+          padding: '64px',
+          background: '#222',
+          color: '#fff',
+        }}
+      >
+        <div style={{ fontSize: '120px', fontWeight: 'bold' }}>
+          {frameDrop.name}
+        </div>
+        <div style={{ fontSize: '64px' }}>
+          {frameDrop.creatorFid.toString()}
+        </div>
         {success && <div>Success!</div>}
         {error && <div>{error}</div>}
       </div>
     ),
-    {
-      width: 1910,
-      height: 1000,
-    },
+    size,
   )
 }
