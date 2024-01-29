@@ -1,5 +1,5 @@
 {
-  "id": "6ba14de4-0f2a-4347-b4c0-0c57026a6206",
+  "id": "255dcb6d-4291-47ac-b21d-fa1fec6cd215",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -18,7 +18,7 @@
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "default": "now()"
         },
         "name": {
@@ -47,7 +47,7 @@
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "default": "now()"
         },
         "drop_id": {
@@ -64,7 +64,7 @@
         },
         "caster_fid": {
           "name": "caster_fid",
-          "type": "text",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         }

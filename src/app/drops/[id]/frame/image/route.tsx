@@ -33,7 +33,7 @@ export async function GET(request: Request, { params }: Props) {
     (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <div>{frameDrop.name}</div>
-        <div>{frameDrop.creatorFid}</div>
+        <div>{frameDrop.creatorFid.toString()}</div>
         {success && <div>Success!</div>}
         {error && <div>{error}</div>}
       </div>

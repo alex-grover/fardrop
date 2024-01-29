@@ -7,7 +7,8 @@ import { SessionData, sessionOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { drop } from '@/lib/db/schema'
 
-export type DropsResponse = Awaited<ReturnType<typeof db.query.drop.findMany>>
+type Drop = typeof drop.$inferSelect
+export type DropsResponse = Drop[]
 
 export async function GET() {
   const session = await getIronSession<SessionData>(cookies(), sessionOptions)
@@ -25,10 +26,7 @@ const createDropSchema = z.object({
 })
 export type CreateDropInput = z.input<typeof createDropSchema>
 
-export type CreateDropResponse = {
-  id: number
-  name: string
-}
+export type CreateDropResponse = typeof drop.$inferSelect
 
 export async function POST(request: Request) {
   const session = await getIronSession<SessionData>(cookies(), sessionOptions)

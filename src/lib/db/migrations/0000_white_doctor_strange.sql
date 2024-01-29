@@ -1,15 +1,15 @@
 CREATE TABLE IF NOT EXISTS "drop" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
+	"created_at" timestamp DEFAULT now(),
 	"name" text NOT NULL,
 	"creator_fid" integer NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "participant" (
-	"created_at" timestamp DEFAULT now() NOT NULL,
+	"created_at" timestamp DEFAULT now(),
 	"drop_id" integer NOT NULL,
 	"fid" integer NOT NULL,
-	"caster_fid" text NOT NULL,
+	"caster_fid" integer NOT NULL,
 	CONSTRAINT "participant_drop_id_fid_caster_fid_pk" PRIMARY KEY("drop_id","fid","caster_fid")
 );
 --> statement-breakpoint

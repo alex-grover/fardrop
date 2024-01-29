@@ -9,7 +9,7 @@ import {
 
 export const drop = pgTable('drop', {
   id: serial('id').primaryKey(),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
+  createdAt: timestamp('created_at').defaultNow(),
   name: text('name').notNull(),
   creatorFid: integer('creator_fid').notNull(),
 })
@@ -17,12 +17,12 @@ export const drop = pgTable('drop', {
 export const participant = pgTable(
   'participant',
   {
-    createdAt: timestamp('created_at').notNull().defaultNow(),
+    createdAt: timestamp('created_at').defaultNow(),
     dropId: integer('drop_id')
       .notNull()
       .references(() => drop.id),
     fid: integer('fid').notNull(),
-    casterFid: text('caster_fid').notNull(),
+    casterFid: integer('caster_fid').notNull(),
   },
   (table) => ({
     pk: primaryKey({
