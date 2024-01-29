@@ -26,6 +26,7 @@ const createDropSchema = z.object({
 export type CreateDropInput = z.input<typeof createDropSchema>
 
 export type CreateDropResponse = {
+  id: number
   name: string
 }
 

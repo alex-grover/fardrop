@@ -5,6 +5,7 @@ import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import { z } from 'zod'
+import { CopyButton } from '@/app/drops/[id]/copy-button'
 import { Header } from '@/components/header'
 import {
   Table,
@@ -53,11 +54,14 @@ export default async function Drop({ params }: DropProps) {
     <>
       <Header />
       <main className="container flex max-w-screen-md flex-col gap-4 py-10">
-        <div className="flex items-center gap-4">
-          <Link href="/drops">
-            <ChevronLeftIcon />
-          </Link>
-          <H1>{createdDrop.name}</H1>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Link href="/drops">
+              <ChevronLeftIcon />
+            </Link>
+            <H1>{createdDrop.name}</H1>
+          </div>
+          <CopyButton />
         </div>
         <div className="flex w-full flex-col items-center gap-8">
           <Table className="w-full">

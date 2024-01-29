@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { FormEventHandler, useCallback } from 'react'
 import { toast } from 'sonner'
 import useSWRMutation from 'swr/mutation'
@@ -18,6 +19,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 export function CreateCard() {
+  const router = useRouter()
+
   const { trigger, isMutating } = useSWRMutation(
     '/api/drops',
     createMutationFetcher<CreateDropResponse, CreateDropInput>({
@@ -32,16 +35,15 @@ export function CreateCard() {
       async function execute() {
         const formData = new FormData(event.currentTarget)
         const name = formData.get('name')
-        console.log(Object.fromEntries(formData.entries()))
         if (!name || typeof name !== 'string') {
           toast('Name is required')
           return
         }
 
         try {
-          await trigger({ name })
+          const response = await trigger({ name })
           toast('Created drop!')
-          // TODO: redirect to drop management page
+          router.push(`/drops/${response.id}`)
         } catch {
           toast('Error creating drop.')
         }
@@ -49,7 +51,7 @@ export function CreateCard() {
 
       void execute()
     },
-    [trigger],
+    [trigger, router],
   )
 
   return (
