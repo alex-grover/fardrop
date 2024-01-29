@@ -22,11 +22,11 @@ export function NavButtons() {
   const router = useRouter()
   const { signOut: unauthenticate } = useSignIn({})
   const { isAuthenticated } = useProfile()
-  const { session, signIn, signOut } = useSession()
+  const { session, isLoading, signIn, signOut } = useSession()
 
   useEffect(() => {
-    if (!session?.id && pathname !== '/') router.replace('/')
-  }, [session, pathname, router])
+    if (!isLoading && !session?.id && pathname !== '/') router.replace('/')
+  }, [isLoading, session, pathname, router])
 
   const handleSuccess = useCallback(
     (res: StatusAPIResponse) => {
@@ -52,7 +52,7 @@ export function NavButtons() {
     router.replace('/')
   }, [unauthenticate, signOut, router])
 
-  if (!isMounted) return null
+  if (!isMounted || isLoading) return null
 
   if (!isAuthenticated && !session?.id)
     return (
@@ -74,7 +74,7 @@ export function NavButtons() {
     <>
       {pathname === '/new' ? (
         <Link
-          href="/manage"
+          href="/drops"
           className={cn(buttonVariants({ className: 'gap-2' }))}
         >
           Manage
