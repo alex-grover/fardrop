@@ -68,18 +68,18 @@ export default async function Drop({ params }: DropProps) {
             <TableHeader>
               <TableRow>
                 <TableHead>FID</TableHead>
-                <TableHead>Caster FID</TableHead>
                 <TableHead className="text-right">Address</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {participants.map((participant) => (
-                <TableRow key={participant.fid}>
+                <TableRow key={participant.participantFid}>
                   <TableCell className="font-medium">
-                    {participant.fid}
+                    {participant.participantFid}
                   </TableCell>
-                  <TableCell>{participant.casterFid}</TableCell>
-                  <TableCell className="text-right"></TableCell>
+                  <TableCell className="text-right">
+                    {participant.participantAddress}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

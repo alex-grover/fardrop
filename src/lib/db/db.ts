@@ -1,6 +1,6 @@
 import { drizzle } from 'drizzle-orm/postgres-js'
 import postgres from 'postgres'
-import { drop, participant } from '@/lib/db/schema'
+import { cast, drop, participant } from '@/lib/db/schema'
 import { env } from '@/lib/env'
 
 const client = postgres(env.DATABASE_URL)
@@ -8,6 +8,7 @@ const client = postgres(env.DATABASE_URL)
 export const db = drizzle(client, {
   schema: {
     drop,
+    cast,
     participant,
   },
 })

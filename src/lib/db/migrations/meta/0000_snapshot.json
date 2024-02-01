@@ -1,9 +1,43 @@
 {
-  "id": "255dcb6d-4291-47ac-b21d-fa1fec6cd215",
+  "id": "1e12c787-f830-4481-8d0e-670e74c1f79b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
   "tables": {
+    "cast": {
+      "name": "cast",
+      "schema": "",
+      "columns": {
+        "hash": {
+          "name": "hash",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "caster_fid": {
+          "name": "caster_fid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "caster_username": {
+          "name": "caster_username",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "caster_avatar": {
+          "name": "caster_avatar",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "drop": {
       "name": "drop",
       "schema": "",
@@ -32,6 +66,18 @@
           "type": "integer",
           "primaryKey": false,
           "notNull": true
+        },
+        "creator_username": {
+          "name": "creator_username",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "creator_avatar": {
+          "name": "creator_avatar",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
@@ -56,15 +102,33 @@
           "primaryKey": false,
           "notNull": true
         },
-        "fid": {
-          "name": "fid",
+        "cast_hash": {
+          "name": "cast_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "participant_fid": {
+          "name": "participant_fid",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
-        "caster_fid": {
-          "name": "caster_fid",
-          "type": "integer",
+        "participant_username": {
+          "name": "participant_username",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "participant_avatar": {
+          "name": "participant_avatar",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "participant_address": {
+          "name": "participant_address",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         }
@@ -79,12 +143,21 @@
           "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
+        },
+        "participant_cast_hash_cast_hash_fk": {
+          "name": "participant_cast_hash_cast_hash_fk",
+          "tableFrom": "participant",
+          "tableTo": "cast",
+          "columnsFrom": ["cast_hash"],
+          "columnsTo": ["hash"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
-        "participant_drop_id_fid_caster_fid_pk": {
-          "name": "participant_drop_id_fid_caster_fid_pk",
-          "columns": ["drop_id", "fid", "caster_fid"]
+        "participant_drop_id_participant_fid_pk": {
+          "name": "participant_drop_id_participant_fid_pk",
+          "columns": ["drop_id", "participant_fid"]
         }
       },
       "uniqueConstraints": {}

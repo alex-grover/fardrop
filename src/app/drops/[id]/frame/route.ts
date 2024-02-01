@@ -1,10 +1,11 @@
-import { getSSLHubRpcClient, Message } from '@farcaster/hub-nodejs'
+import { Message, UserDataType } from '@farcaster/hub-nodejs'
 import { eq } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
+import { toHex } from 'viem'
 import { z } from 'zod'
 import { db } from '@/lib/db'
-import { drop, participant } from '@/lib/db/schema'
-import { env } from '@/lib/env'
+import { cast, drop, participant } from '@/lib/db/schema'
+import { hubClient } from '@/lib/hub'
 
 type Props = {
   params: {
@@ -51,8 +52,6 @@ const bodySchema = z.object({
   }),
 })
 
-const hubClient = getSSLHubRpcClient(env.HUB_URL)
-
 export async function POST(request: Request, { params }: Props) {
   const paramsParseResult = paramsSchema.safeParse(params)
   if (!paramsParseResult.success) notFound()
@@ -70,13 +69,61 @@ export async function POST(request: Request, { params }: Props) {
     parseResult.data.trustedData.messageBytes,
   )
   if (!message) return new Response('Invalid message', { status: 422 })
+  const { fid, casterFid, castHash } = message
+
+  const [user, verifications, caster] = await Promise.all([
+    hubClient.getUserDataByFid({ fid }),
+    hubClient.getVerificationsByFid({ fid }),
+    hubClient.getUserDataByFid({ fid: casterFid }),
+  ])
+
+  if (!verifications.isOk() || !user.isOk() || !caster.isOk())
+    return new Response('Failed to fetch user data', { status: 500 })
+
+  /* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
+  const rawAddress =
+    verifications.value.messages[0]?.data?.verificationAddEthAddressBody
+      ?.address
+  const participantAddress = rawAddress && toHex(rawAddress)
+  const participantUsername = user.value.messages.find(
+    (message) => message.data?.userDataBody?.type === UserDataType.USERNAME,
+  )?.data?.userDataBody?.value
+  const participantAvatar = user.value.messages.find(
+    (message) => message.data?.userDataBody?.type === UserDataType.PFP,
+  )?.data?.userDataBody?.value
+  const casterUsername = caster.value.messages.find(
+    (message) => message.data?.userDataBody?.type === UserDataType.USERNAME,
+  )?.data?.userDataBody?.value
+  const casterAvatar = caster.value.messages.find(
+    (message) => message.data?.userDataBody?.type === UserDataType.PFP,
+  )?.data?.userDataBody?.value
 
   const searchParams = new URLSearchParams()
-  try {
-    await db.insert(participant).values({ dropId: frameDrop.id, ...message })
-    searchParams.set('success', 'true')
-  } catch {
-    searchParams.set('error', 'Already joined')
+  if (participantAddress) {
+    try {
+      await db
+        .insert(cast)
+        .values({
+          hash: castHash,
+          casterFid,
+          casterUsername,
+          casterAvatar,
+        })
+        .onConflictDoNothing()
+      await db.insert(participant).values({
+        dropId: frameDrop.id,
+        castHash,
+        participantFid: fid,
+        participantUsername,
+        participantAvatar,
+        participantAddress,
+      })
+      searchParams.set('success', 'true')
+    } catch {
+      searchParams.set('error', 'Already joined')
+    }
+  } else {
+    searchParams.set('error', 'No connected address')
   }
 
   return new Response(
@@ -107,6 +154,9 @@ async function validateFrameMessage(data: string) {
   const validMessage = validateResult.value.message
   const fid = validMessage?.data?.fid
   const casterFid = validMessage?.data?.frameActionBody?.castId?.fid
+  const castHash = validMessage?.data?.frameActionBody?.castId?.hash
 
-  return fid && casterFid ? { fid, casterFid } : null
+  return fid && casterFid && castHash
+    ? { fid, casterFid, castHash: toHex(castHash) }
+    : null
 }
