@@ -50,7 +50,7 @@ export function CreatedDropsTable() {
         </div>
       )}
       {data?.length === 0 && (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-6">
           <div className="italic text-muted-foreground">No drops yet!</div>
           <Link href="/new" className={buttonVariants({ className: 'gap-2' })}>
             <PlusIcon className="h-4 w-4" />

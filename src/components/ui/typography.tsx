@@ -7,3 +7,7 @@ export function H1({ children }: PropsWithChildren) {
     </h1>
   )
 }
+
+export function Lead({ children }: PropsWithChildren) {
+  return <p className="text-xl text-muted-foreground">{children}</p>
+}

@@ -13,7 +13,7 @@ export default async function New() {
   return (
     <>
       <Header />
-      <main className="container flex justify-center py-10">
+      <main className="container flex justify-center py-16">
         <CreateCard />
       </main>
     </>
