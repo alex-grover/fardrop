@@ -32,9 +32,9 @@ jobs:
       - run: pnpm install
         env:
           HUSKY: 0
-      - run: pnpm db:migrate
-      - run: test -z "$(git status --porcelain)"
       - run: pnpm db:generate
+      - run: test -z "$(git status --porcelain)"
+      - run: pnpm db:migrate
       - run: pnpm check:lint
       - run: pnpm check:format
       - run: pnpm check:types
