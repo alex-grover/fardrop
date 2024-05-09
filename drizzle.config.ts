@@ -2,12 +2,10 @@ import { defineConfig } from 'drizzle-kit'
 import { env } from '@/lib/db/env'
 
 export default defineConfig({
+  dialect: 'postgresql',
   schema: 'src/lib/db/schema.ts',
   out: 'src/lib/db/migrations',
-  driver: 'pg',
   dbCredentials: {
-    connectionString: env.DIRECT_DATABASE_URL ?? env.DATABASE_URL,
+    url: env.POSTGRES_URL,
   },
-  verbose: true,
-  strict: true,
 })

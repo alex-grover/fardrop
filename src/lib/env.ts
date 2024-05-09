@@ -3,7 +3,7 @@ import { z } from 'zod'
 
 export const env = createEnv({
   server: {
-    DATABASE_URL: z.string().url(),
+    POSTGRES_URL: z.string().url(),
     HUB_URL: z.string().url(),
     SESSION_SECRET: z.string().min(32),
     VERCEL_ENV: z.enum(['production', 'preview', 'development']),
