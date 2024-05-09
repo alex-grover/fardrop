@@ -6,20 +6,6 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_PASSWORD: postgres
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-    env:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
     steps:
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2
@@ -27,14 +13,13 @@ jobs:
           version: 8
       - uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
       - run: pnpm install
         env:
           HUSKY: 0
-      - run: pnpm db:generate
+      - run: pnpm run db:generate
       - run: test -z "$(git status --porcelain)"
-      - run: pnpm db:migrate
-      - run: pnpm check:lint
-      - run: pnpm check:format
-      - run: pnpm check:types
+      - run: pnpm run check:lint
+      - run: pnpm run check:format
+      - run: pnpm run check:types
