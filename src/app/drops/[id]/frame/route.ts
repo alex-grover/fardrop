@@ -82,8 +82,7 @@ export async function POST(request: Request, { params }: Props) {
 
   /* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
   const rawAddress =
-    verifications.value.messages[0]?.data?.verificationAddEthAddressBody
-      ?.address
+    verifications.value.messages[0]?.data?.verificationAddAddressBody?.address
   const participantAddress = rawAddress && toHex(rawAddress)
   const participantUsername = user.value.messages.find(
     (message) => message.data?.userDataBody?.type === UserDataType.USERNAME,
